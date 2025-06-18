@@ -1,6 +1,7 @@
 package com.example.moviedatabaseapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -38,7 +39,13 @@ public class MovieListActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         loadMovies();
+        SharedPreferences prefs = getSharedPreferences("movie_prefs", MODE_PRIVATE);
+        boolean isFirstRun = prefs.getBoolean("first_run", true);
 
+        if (isFirstRun) {
+            addInitialMovies();
+            prefs.edit().putBoolean("first_run", false).apply();
+        }
         fabAdd.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddEditActivity.class);
             startActivity(intent);
@@ -86,7 +93,23 @@ public class MovieListActivity extends AppCompatActivity {
                 new Movie("Up", "2009", "https://m.media-amazon.com/images/I/81WojUxbbFL._AC_SY679_.jpg"),
                 new Movie("Toy Story", "1995", "https://m.media-amazon.com/images/I/51NpxX9XJXL._AC_SY445_.jpg"),
                 new Movie("Frozen", "2013", "https://m.media-amazon.com/images/I/71qJ1VGR4rL._AC_SY679_.jpg"),
-                new Movie("Shrek", "2001", "https://m.media-amazon.com/images/I/81OluFZnkeL._AC_SY679_.jpg")
+                new Movie("Shrek", "2001", "https://m.media-amazon.com/images/I/81OluFZnkeL._AC_SY679_.jpg"),
+        new Movie("3 Idiots", "2009", "https://m.media-amazon.com/images/I/81N0BQ4H8jL._AC_SL1500_.jpg"),
+                new Movie("Dangal", "2016", "https://m.media-amazon.com/images/I/71xzvVYZv4L._AC_SL1500_.jpg"),
+                new Movie("Gully Boy", "2019", "https://m.media-amazon.com/images/I/91S3vObgfbL._AC_SL1500_.jpg"),
+                new Movie("PK", "2014", "https://m.media-amazon.com/images/I/91r5Hh1WjLL._AC_SL1500_.jpg"),
+                new Movie("Bahubali", "2015", "https://m.media-amazon.com/images/I/81h9Z3x6Q9L._AC_SL1500_.jpg"),
+                new Movie("Forrest Gump", "1994", "https://m.media-amazon.com/images/I/41cXN3pVwZL._AC_.jpg"),
+                new Movie("The Matrix", "1999", "https://m.media-amazon.com/images/I/51EG732BV3L.jpg"),
+                new Movie("Lagaan", "2001", "https://m.media-amazon.com/images/I/91PHGFcMbnL._AC_SL1500_.jpg"),
+                new Movie("Sholay", "1975", "https://m.media-amazon.com/images/I/71ZbFExMS5L._AC_SL1200_.jpg"),
+                new Movie("RRR", "2022", "https://m.media-amazon.com/images/I/81M1H4N3X8L._AC_SL1500_.jpg"),
+                new Movie("Pathaan", "2023", "https://m.media-amazon.com/images/I/81U1egWqQUL._AC_SL1500_.jpg"),
+                new Movie("Kabir Singh", "2019", "https://m.media-amazon.com/images/I/81B5yupQogL._AC_SL1500_.jpg"),
+                new Movie("Titanic", "1997", "https://m.media-amazon.com/images/I/71rNJQ2g-EL._AC_SY679_.jpg"),
+                new Movie("Joker", "2019", "https://m.media-amazon.com/images/I/71ZkE-MefML._AC_SY679_.jpg"),
+                new Movie("Avatar", "2009", "https://m.media-amazon.com/images/I/61OUGpUfAyL._AC_SL1024_.jpg")
+
         );
 
         for (Movie movie : movies) {
